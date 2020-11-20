@@ -1,0 +1,47 @@
+export const LETTERS = {
+    'a': 'a.txt',
+    'b': 'b.txt',
+    'c': 'c.txt',
+    'd': 'd.txt',
+    'e': 'e.txt',
+    'f': 'f.txt',
+    'g': 'g.txt',
+    'h': 'h.txt',
+    'i': 'i.txt',
+    'j': 'j.txt',
+    'k': 'k.txt',
+    'l': 'l.txt',
+    'm': 'm.txt',
+    'n': 'n.txt',
+    'o': 'o.txt',
+    'p': 'p.txt',
+    'q': 'q.txt',
+    'r': 'r.txt',
+    's': 's.txt',
+    't': 't.txt',
+    'u': 'u.txt',
+    'v': 'v.txt',
+    'w': 'w.txt',
+    'x': 'x.txt',
+    'y': 'y.txt',
+};
+
+export const NUMBERS = {
+    '0': '0.txt',
+    '1': '1.txt',
+    '2': '2.txt',
+    '3': '3.txt',
+    '4': '4.txt',
+    '5': '5.txt',
+    '6': '6.txt',
+    '7': '7.txt',
+    '8': '8.txt',
+    '9': '9.txt',
+};
+
+export const PUNCTUATIONS = {
+    '*': 'dot.txt',
+    '·': 'dot.txt',
+    '|': 'division.txt',
+    '-': 'dash.txt',
+};
