@@ -2,6 +2,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as chalk from 'chalk';
 import { LETTERS, NUMBERS, PUNCTUATIONS } from './dictionary';
+
 const fixtureDir = path.resolve(__dirname, '..', 'fixtures');
 const HEIGHT = 8;
 type Character = {
@@ -15,7 +16,7 @@ type Dictionary = Record<string, string>;
 
 type CharacterMapping = Record<string, Character>;
 
-type Option = {
+export type Option = {
     butter?: number,
     maxLineWidth?: number,
     color?: string,
@@ -41,7 +42,7 @@ const readFile = (filepath: string): Promise<string> => new Promise((resolve, re
     });
 });
 
-// 计算斜体字的整个宽度
+// 计算斜体字的整个有效宽度
 function calcCharacterWidth(content: string): number {
     const lines = content.split('\n');
     let minLeft = Infinity;
@@ -70,17 +71,24 @@ function calcCharacterWidth(content: string): number {
     return maxRight - minLeft + 1;
 }
 
+// 计算字符的前驱空格数
 function prefixSpace(str: string) {
     const matched = /^\s+/g.exec(str);
     return matched ? matched[0].length : 0;
 }
 
+// 计算字符后置空格数
 function tailSpace(str: string) {
     const matched = /\s+$/g.exec(str);
     return matched ? matched[0].length : 0;
 }
 
-// 进行斜体的缩进排版调整
+/**
+ * 为了保证字体的展示效果，目前字体并非定宽，也不具备统一的标准盒
+ * 加上字体是偏3D斜体的样式。因此如果不做调整，自间距会参差不齐
+ * 下面会对缩进进行了自适应的排版调整
+ */
+// 计算添加该字符的缩进阈值
 function calcIndent(lines: string[], charLines: string[]): number {
     // 不会影响到渲染的最小缩进
     let minIndent = Infinity;
@@ -93,6 +101,7 @@ function calcIndent(lines: string[], charLines: string[]): number {
     return minIndent;
 }
 
+// 添加新字符，并进行缩进调整
 function appendCharacter(lines: string[], charLines: string[], butter: number): string[] {
     const indent = calcIndent(lines, charLines);
     return lines.map((l, i) => {
