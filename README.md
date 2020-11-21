@@ -31,10 +31,36 @@ import { hey } from '@infra-node/hey';
 hey('Hey·Leslie');
 ```
 
+## API
+
+```typescript
+// return the lines to print
+hey(text: string, options?: Option): string[]
+```
+
+**Options:**
+
+- spacing: `number`  The number of spacing between two characters. Default `1`.
+- maxLineWidth: `number`  The max length of lines. If exceed `maxLineWidth` following characters will get a line feed. Default `Infinity`.
+- color: `string`  Setting the color for print. Default `none`. There contains several values:
+  - `random` choosing a random color from the palette
+  - `none` with no color setting
+  - any other color string supported by [chalk](https://github.com/chalk/chalk)
+- characterDir: `string`  The directory where to load customized characters. Default `''`.
+- silent: `boolean`  Whether to prevent print characters when calling `hey`.
+
+For example,
+
+```typescript
+hey('yo', { color: 'blue' });
+```
+
+Then it will print a blue `YO`.
+
 ## Run the example
 
 ```bash
-npm start
+npm run example
 ```
 
 ```bash
