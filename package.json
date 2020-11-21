@@ -2,9 +2,12 @@
   "name": "@infra-node/hey",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "lib/index.js",
   "scripts": {
-    "start": "ts-node src/index.ts"
+    "start": "ts-node src/index.ts",
+    "example": "node lib/index.js",
+    "build": "rm -rf lib && tsc --build tsconfig.json",
+    "prepublishOnly": "npm run build"
   },
   "author": "infra-node/zhouhongxuan",
   "license": "ISC",
