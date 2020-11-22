@@ -21,7 +21,6 @@ const calcIndent = function (lines: string[], charLines: string[]): number {
     let maxPossible = Infinity;
 
     for (let i = 1; i < lines.length; i++) {
-        // 允许缩进的最大值
         const formerTailNum = tailSpace(lines[i]);
         const latterPrefixNum = prefixSpace(charLines[i]);
 

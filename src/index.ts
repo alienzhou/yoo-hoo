@@ -2,13 +2,7 @@ import chalk from 'chalk';
 import type { Dictionary, Option } from './types';
 import { load } from './load';
 import { layout } from './typesetting';
-import {
-    DEFAULT_COLOR,
-    DEFAULT_MAX_LINE_WIDTH,
-    DEFAULT_SILENT,
-    DEFAULT_SPACING,
-    BUILT_IN_FONT_REQUIRE_PATH,
-} from './const';
+import { DEFAULT_COLOR, DEFAULT_MAX_LINE_WIDTH, DEFAULT_SILENT, DEFAULT_SPACING } from './const';
 
 type Paint = (s: string) => string;
 type ChalkMod = Record<string, Paint>;
@@ -37,7 +31,7 @@ export const yo = function (str: string, opt?: Option) {
 
     // has not loaded
     if (!Object.keys(dictionary).length) {
-        dictionary = load(BUILT_IN_FONT_REQUIRE_PATH);
+        dictionary = load();
     }
 
     const lines = layout(str, dictionary, options);

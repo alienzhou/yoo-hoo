@@ -62,22 +62,25 @@ const formatCharacter = function (info: FontDefinition, maxCharHeight: number): 
     }));
 };
 
-const loadCharacters = function (modulePath: string): Character[][] {
+const loadCharacters = function (): Character[][] {
     try {
+        // TODO support load customized font set modules
         // eslint-disable-next-line @typescript-eslint/no-var-requires, @typescript-eslint/no-require-imports
-        const { fonts } = require(modulePath) as { fonts: FontDefinition[] };
+        const { fonts } = require('./res/font.js') as { fonts: FontDefinition[] };
 
-        return fonts.map(formatCharacter);
+        const maxCharHeight = fonts.reduce((max, f) => Math.max(f.codes.filter(c => c === 10).length + 1, max), 0);
+
+        return fonts.map(f => formatCharacter(f, maxCharHeight));
     } catch (e: unknown) {
         // eslint-disable-next-line no-console
-        console.error(`FONT SET NOT FOUND in ${modulePath}:`, e);
+        console.error('FONT SET NOT FOUND in ./res/font.js:', e);
 
         return [];
     }
 };
 
-export const load = function (modulePath: string): Dictionary {
-    const characters = loadCharacters(modulePath);
+export const load = function (): Dictionary {
+    const characters = loadCharacters();
     const mapping: Dictionary = {};
 
     characters
