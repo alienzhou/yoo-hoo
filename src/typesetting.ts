@@ -1,41 +1,37 @@
 import type { Dictionary, Option } from './types';
 
-// 计算字符的前驱空格数
+// calc the prefix space
 const prefixSpace = function (str: string) {
     const matched = /^\s+/gu.exec(str);
 
     return matched ? matched[0].length : 0;
 };
 
-// 计算字符后置空格数
+// calc the tail space
 const tailSpace = function (str: string) {
     const matched = /\s+$/gu.exec(str);
 
     return matched ? matched[0].length : 0;
 };
 
-/**
- * 为了保证字体的展示效果，目前字体并非定宽，也不具备统一的标准盒
- * 加上字体是偏3D斜体的样式。因此如果不做调整，自间距会参差不齐
- * 下面会对缩进进行了自适应的排版调整
- */
-// 计算添加该字符的缩进阈值
+// calc how many spaces need for indent for layout
+// overwise the gap between two characters will be different
 const calcIndent = function (lines: string[], charLines: string[]): number {
-    // 不会影响到渲染的最小缩进
-    let minIndent = Infinity;
+    // maximum indent that won't break the layout
+    let maxPossible = Infinity;
 
     for (let i = 1; i < lines.length; i++) {
         // 允许缩进的最大值
         const formerTailNum = tailSpace(lines[i]);
         const latterPrefixNum = prefixSpace(charLines[i]);
 
-        minIndent = Math.min(minIndent, formerTailNum + latterPrefixNum);
+        maxPossible = Math.min(maxPossible, formerTailNum + latterPrefixNum);
     }
 
-    return minIndent;
+    return maxPossible;
 };
 
-// 添加新字符，并进行缩进调整
+// append a new character and adjust the indent
 const appendCharacter = function (lines: string[], charLines: string[], spacing: number): string[] {
     const indent = calcIndent(lines, charLines);
 

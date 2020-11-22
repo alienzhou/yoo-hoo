@@ -1,8 +1,14 @@
-import * as path from 'path';
 import chalk from 'chalk';
 import type { Dictionary, Option } from './types';
 import { load } from './load';
 import { layout } from './typesetting';
+import {
+    DEFAULT_COLOR,
+    DEFAULT_MAX_LINE_WIDTH,
+    DEFAULT_SILENT,
+    DEFAULT_SPACING,
+    BUILT_IN_FONT_REQUIRE_PATH,
+} from './const';
 
 type Paint = (s: string) => string;
 type ChalkMod = Record<string, Paint>;
@@ -10,18 +16,17 @@ type ChalkMod = Record<string, Paint>;
 const PALETTE = ['red', 'green', 'yellow', 'blue', 'magenta', 'cyan', 'white'];
 
 const formatOption = function (opt?: Option): Required<Option> {
-    const spacing = opt?.spacing ?? 1;
-    const maxLineWidth = opt?.maxLineWidth ?? Infinity;
-    const characterDir = opt?.characterDir ?? '';
-    const silent = opt?.silent ?? false;
-    const color = opt?.color === 'random' ? PALETTE[Math.floor(Math.random() * PALETTE.length)] : opt?.color ?? 'none';
+    const spacing = opt?.spacing ?? DEFAULT_SPACING;
+    const maxLineWidth = opt?.maxLineWidth ?? DEFAULT_MAX_LINE_WIDTH;
+    const silent = opt?.silent ?? DEFAULT_SILENT;
+    const color =
+        opt?.color === 'random' ? PALETTE[Math.floor(Math.random() * PALETTE.length)] : opt?.color ?? DEFAULT_COLOR;
 
     return {
         color,
         spacing,
         silent,
         maxLineWidth,
-        characterDir,
     };
 };
 
@@ -30,14 +35,9 @@ let dictionary: Dictionary = {};
 export const hey = function (str: string, opt?: Option) {
     const options = formatOption(opt);
 
-    dictionary = load(path.resolve(__dirname, '..', 'character'));
-
-    if (options.characterDir) {
-        dictionary = {
-            ...dictionary,
-            // customized characters will overwrite built-ins
-            ...load(options.characterDir),
-        };
+    // has not loaded
+    if (!Object.keys(dictionary).length) {
+        dictionary = load(BUILT_IN_FONT_REQUIRE_PATH);
     }
 
     const lines = layout(str, dictionary, options);
@@ -58,7 +58,3 @@ export const hey = function (str: string, opt?: Option) {
 
     return lines;
 };
-
-if (require.main === module) {
-    hey(process.argv[2] || 'Hey·leslie', { spacing: 2, color: 'random' });
-}

@@ -1,13 +1,13 @@
 {
   "name": "@infra-node/hey",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "",
   "main": "lib/index.js",
   "scripts": {
-    "start": "ts-node src/index.ts",
-    "example": "node lib/index.js",
+    "dev": "tsc --build -w tsconfig.json",
+    "example": "node example/index.js",
     "lint": "eslint \"src/**/*.ts\" --fix",
-    "build": "rm -rf lib && tsc --build tsconfig.json",
+    "build": "rm -rf lib && tsc --build tsconfig.json && ts-node script/build.ts",
     "prepublishOnly": "npm run lint && npm run build"
   },
   "author": "infra-node/zhouhongxuan",

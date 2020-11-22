@@ -11,6 +11,5 @@ export interface Option {
     spacing?: number;
     maxLineWidth?: number;
     color?: string;
-    characterDir?: string;
     silent?: boolean;
 }

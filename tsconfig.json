@@ -13,13 +13,14 @@
     "outDir": "./lib",
     "baseUrl": "./",
     "esModuleInterop": true,
-    "incremental": true,
+    "incremental": false,
     "lib": [
       "esnext"
     ]
   },
   "exclude": [
     "node_modules",
-    "lib"
+    "lib",
+    "script"
   ]
 }
