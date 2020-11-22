@@ -1,7 +1,7 @@
 {
   "name": "yoo-hoo",
   "version": "1.0.0",
-  "description": "",
+  "description": "Print a noticeable banner of words for your project. 🖨️",
   "main": "lib/index.js",
   "scripts": {
     "dev": "tsc --build -w tsconfig.json",

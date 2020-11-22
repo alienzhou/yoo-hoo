@@ -32,7 +32,7 @@ const formatOption = function (opt?: Option): Required<Option> {
 
 let dictionary: Dictionary = {};
 
-export const hey = function (str: string, opt?: Option) {
+export const yo = function (str: string, opt?: Option) {
     const options = formatOption(opt);
 
     // has not loaded

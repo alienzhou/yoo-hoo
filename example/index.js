@@ -1,3 +1,3 @@
-const { hey } = require('../lib/index');
+const { yo } = require('../lib/index');
 
-hey(process.argv[2] || 'Hey·leslie', { spacing: 1, color: 'random' });
+yo(process.argv[2] || 'yoo-hoo', { spacing: 1, color: 'random' });
