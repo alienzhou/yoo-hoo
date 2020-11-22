@@ -34,9 +34,10 @@ yo('GOOD');
 ## API
 
 ```typescript
-// return the lines to print
 yo(text: string, options?: Option): string[]
 ```
+
+It will return the lines for printing. Then you can print it yourself line by line.
 
 **Options:**
 
@@ -46,7 +47,7 @@ yo(text: string, options?: Option): string[]
   - `random` choosing a random color from the palette
   - `none` with no color setting
   - any other color string supported by [chalk](https://github.com/chalk/chalk)
-- silent: `boolean`  Whether to prevent print characters when calling `yo()`.
+- silent: `boolean`  Whether to prevent print characters when calling `yo()`. Default `false`.
 
 For example,
 
