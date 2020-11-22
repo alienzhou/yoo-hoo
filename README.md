@@ -31,6 +31,14 @@ import { yo } from 'yoo-hoo';
 yo('GOOD');
 ```
 
+or in commonjs
+
+```js
+const { yo } = require('yoo-hoo');
+
+yo('GOOD');
+```
+
 ## API
 
 ```typescript
