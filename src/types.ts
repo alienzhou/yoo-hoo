@@ -3,14 +3,14 @@ export interface Character {
     width: number;
     height: number;
     def: string;
-};
+}
 
 export type Dictionary = Record<string, Character>;
 
-export type Option = {
-    spacing?: number,
-    maxLineWidth?: number,
-    color?: string,
+export interface Option {
+    spacing?: number;
+    maxLineWidth?: number;
+    color?: string;
     characterDir?: string;
     silent?: boolean;
 }
