@@ -1,6 +1,6 @@
 {
-  "name": "@infra-node/hey",
-  "version": "1.1.0",
+  "name": "yoo-hoo",
+  "version": "1.0.0",
   "description": "",
   "main": "lib/index.js",
   "scripts": {
@@ -10,8 +10,20 @@
     "build": "rm -rf lib && tsc --build tsconfig.json && ts-node script/build.ts",
     "prepublishOnly": "npm run lint && npm run build"
   },
-  "author": "infra-node/zhouhongxuan",
-  "license": "ISC",
+  "homepage": "https://github.com/alienzhou/yoo-hoo#readme",
+  "keywords": [
+    "welcome",
+    "banner",
+    "console",
+    "print",
+    "words"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/alienzhou/yoo-hoo"
+  },
+  "author": "alienzhou <alienzhou16@163.com>",
+  "license": "MIT",
   "devDependencies": {
     "@types/node": "^14.14.9",
     "@typescript-eslint/eslint-plugin": "^4.8.1",
