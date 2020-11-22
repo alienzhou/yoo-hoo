@@ -7,18 +7,20 @@
     "removeComments": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
+    "allowJs": false,
     "target": "es2018",
-    "sourceMap": true,
+    "sourceMap": false,
     "outDir": "./lib",
     "baseUrl": "./",
     "esModuleInterop": true,
-    "incremental": true,
+    "incremental": false,
     "lib": [
       "esnext"
     ]
   },
   "exclude": [
     "node_modules",
-    "dist"
+    "lib",
+    "script"
   ]
 }
