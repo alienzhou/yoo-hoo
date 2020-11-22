@@ -13,7 +13,7 @@
 
 Hey,
 
-Print the funny words you want in the console. Have fun!
+Print the 3D words you want in the console. Maybe used for a banner for your project. Have fun!
 
 ---
 
@@ -46,7 +46,6 @@ hey(text: string, options?: Option): string[]
   - `random` choosing a random color from the palette
   - `none` with no color setting
   - any other color string supported by [chalk](https://github.com/chalk/chalk)
-- characterDir: `string`  The directory where to load customized characters. Default `''`.
 - silent: `boolean`  Whether to prevent print characters when calling `hey`.
 
 For example,
