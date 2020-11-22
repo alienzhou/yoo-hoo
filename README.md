@@ -67,6 +67,8 @@ Then it will print a blue `HO`.
 
 ## Characters Supported
 
+> 🤘 `yoo-hoo` can be used in **both NodeJS and browsers**.
+
 - 26 letters: `A-Z` (letters will be converted to uppercase)
 - 10 numbers: `0-9`
 - some punctuations: `·` `*` `-` `|`

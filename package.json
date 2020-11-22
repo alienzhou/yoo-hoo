@@ -1,6 +1,6 @@
 {
   "name": "yoo-hoo",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Print a noticeable banner of words for your project. 🖨️",
   "main": "lib/index.js",
   "scripts": {
@@ -43,7 +43,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged && npm run test"
+      "pre-commit": "lint-staged"
     }
   },
   "lint-staged": {
