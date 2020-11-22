@@ -80,7 +80,8 @@ export const parse = function (filepath: string) {
     }
 };
 
-const arrayToString = <T>(arr: T[]) => '[' + arr.map(d => `'${d}'`).join(',') + ']';
+const creatStringArr = (arr: string[]) => '[' + arr.map(d => `'${d}'`).join(',') + ']';
+const creatNumberArr = (arr: number[]) => '[' + arr.map(d => `${d}`).join(',') + ']';
 
 export const buildCharacterModules = function () {
     const fontDir = BUILT_IN_FONT_DIR;
@@ -124,8 +125,8 @@ export const buildCharacterModules = function () {
             + f.content
             + '\n*/\n'
             + `fonts[${idx}] = {\n`
-            + `  defs: ${arrayToString(f.defs)},\n`
-            + `  codes: ${arrayToString(f.codes)}\n`
+            + `  defs: ${creatStringArr(f.defs)},\n`
+            + `  codes: ${creatNumberArr(f.codes)}\n`
             + '};\n'
         );
     }, '');
