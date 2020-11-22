@@ -5,7 +5,7 @@
   "main": "lib/index.js",
   "scripts": {
     "dev": "tsc --build -w tsconfig.json",
-    "example": "node example/index.js",
+    "example": "ts-node example/index.ts",
     "lint": "eslint \"src/**/*.ts\" --fix",
     "build": "rm -rf lib && tsc --build tsconfig.json && ts-node script/build.ts",
     "prepublishOnly": "npm run lint && npm run build"
