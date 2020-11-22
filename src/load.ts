@@ -1,5 +1,4 @@
 import type { Character, Dictionary } from './types';
-import { CHARACTER_HEIGHT } from './const';
 
 interface FontDefinition {
     defs: string[];
@@ -37,14 +36,14 @@ const calcCharacterWidth = function (lines: string[]): number {
     return maxRight - minLeft + 1;
 };
 
-const formatCharacter = function (info: FontDefinition): Character[] {
+const formatCharacter = function (info: FontDefinition, maxCharHeight: number): Character[] {
     const { codes, defs } = info;
     const content = codes.reduce((text, c) => text + String.fromCharCode(c), '');
     const lines = content.split('\n');
 
     // fill empty lines in case of short characters
-    if (lines.length < CHARACTER_HEIGHT) {
-        lines.push(...new Array(CHARACTER_HEIGHT - lines.length).fill(''));
+    if (lines.length < maxCharHeight) {
+        lines.push(...new Array(maxCharHeight - lines.length).fill(''));
     }
 
     const maxLen = lines.reduce((max, l) => Math.max(max, l.length), 0);
@@ -58,7 +57,7 @@ const formatCharacter = function (info: FontDefinition): Character[] {
     return defs.map(def => ({
         lines: [...lines],
         width,
-        height: CHARACTER_HEIGHT,
+        height: maxCharHeight,
         def,
     }));
 };
