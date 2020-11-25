@@ -1,3 +1,10 @@
+# v1.1.0
+
+## Feature
+
+- support print rainbow fonts 🌈
+- support padding start
+
 # v1.0.1
 
 ## Fix

@@ -1,8 +1,9 @@
 import chalk from 'chalk';
+import lolcatjs from 'lolcatjs';
 import type { Dictionary, Option } from './types';
 import { load } from './load';
 import { layout } from './typesetting';
-import { DEFAULT_COLOR, DEFAULT_MAX_LINE_WIDTH, DEFAULT_SILENT, DEFAULT_SPACING } from './const';
+import { DEFAULT_COLOR, DEFAULT_MAX_LINE_WIDTH, DEFAULT_SILENT, DEFAULT_SPACING, DEFAULT_PADDING_START } from './const';
 
 type Paint = (s: string) => string;
 type ChalkMod = Record<string, Paint>;
@@ -10,6 +11,12 @@ type ChalkMod = Record<string, Paint>;
 const PALETTE = ['red', 'green', 'yellow', 'blue', 'magenta', 'cyan', 'white'];
 
 const formatOption = function (opt?: Option): Required<Option> {
+    let paddingStart = opt?.paddingStart ?? DEFAULT_PADDING_START;
+
+    if (paddingStart < 0) {
+        paddingStart = 0;
+    }
+
     const spacing = opt?.spacing ?? DEFAULT_SPACING;
     const maxLineWidth = opt?.maxLineWidth ?? DEFAULT_MAX_LINE_WIDTH;
     const silent = opt?.silent ?? DEFAULT_SILENT;
@@ -19,6 +26,7 @@ const formatOption = function (opt?: Option): Required<Option> {
     return {
         color,
         spacing,
+        paddingStart,
         silent,
         maxLineWidth,
     };
@@ -34,9 +42,15 @@ export const yo = function (str: string, opt?: Option) {
         dictionary = load();
     }
 
-    const lines = layout(str, dictionary, options);
+    const lines = layout(str, dictionary, options).map(l => `${' '.repeat(options.paddingStart)}${l}`);
 
     if (!options.silent) {
+        if (options.color === 'rainbow') {
+            lolcatjs.fromString(lines.join('\n'));
+
+            return lines;
+        }
+
         let paint: Paint = (s: string) => s;
         const color = options.color === 'random' ? PALETTE[Math.floor(Math.random() * PALETTE.length)] : options.color;
 

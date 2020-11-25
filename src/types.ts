@@ -9,6 +9,7 @@ export type Dictionary = Record<string, Character>;
 
 export interface Option {
     spacing?: number;
+    paddingStart?: number;
     maxLineWidth?: number;
     color?: string;
     silent?: boolean;
