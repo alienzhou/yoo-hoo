@@ -7,7 +7,18 @@ export interface Character {
 
 export type Dictionary = Record<string, Character>;
 
+export interface FontDefinition {
+    defs: string[];
+    codes: number[];
+}
+
+export interface FontFamilyObject {
+    fonts: FontDefinition[];
+    name: string;
+}
+
 export interface Option {
+    fontFamily?: FontFamilyObject | 'default';
     spacing?: number;
     paddingStart?: number;
     maxLineWidth?: number;

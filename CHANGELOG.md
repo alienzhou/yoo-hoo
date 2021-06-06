@@ -1,9 +1,29 @@
+# v1.2.0
+
+## Feature
+
+Support more font families. Now you can use the `fontFamily` option to specify the type of font as below:
+
+```typescript
+import * as fontFamily from 'yoo-hoo/fonts/ansi-shadow';
+
+yo('yoo-hoo', {
+    fontFamily,
+});
+```
+
+[See more >>](./README.md#built-in-fonts)
+
+---
+
 # v1.1.0
 
 ## Feature
 
 - support print rainbow fonts 🌈
 - support padding start
+
+---
 
 # v1.0.1
 
@@ -12,6 +32,8 @@
 - char height should be calculated from the source texts
 - use a string text instead of a variable for the default font set module, so that it can work in webpack
 - codes should be numbers in the font set module
+
+---
 
 # v1.0.0
 
