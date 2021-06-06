@@ -1,5 +1,4 @@
 import chalk from 'chalk';
-import lolcatjs from 'lolcatjs';
 import type { Dictionary, Option } from './types';
 import { load } from './load';
 import { layout } from './typesetting';
@@ -60,10 +59,7 @@ export const yo = function (str: string, opt?: Option) {
 
     if (!options.silent) {
         if (options.color === 'rainbow') {
-            debug('use lolcat');
-            lolcatjs.fromString(lines.join('\n'));
-
-            return lines;
+            throw Error('Not support rainbow color in this env. Are you using it in the non-nodejs environment?');
         }
 
         let paint: Paint = (s: string) => s;
