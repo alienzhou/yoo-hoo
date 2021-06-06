@@ -5,7 +5,7 @@
 Support more font families. Now you can use the `fontFamily` option to specify the type of font as below:
 
 ```typescript
-import * as fontFamily from 'yoo-hoo/fonts/ansi-shadow';
+import * as fontFamily from 'yoo-hoo/lib/fonts/ansi-shadow';
 
 yo('yoo-hoo', {
     fontFamily,

@@ -2,7 +2,8 @@
   "name": "yoo-hoo",
   "version": "1.3.0",
   "description": "Print a noticeable banner of words for your project. 🖨️",
-  "main": "lib/index.js",
+  "main": "lib/node-entry.js",
+  "browser": "lib/index.js",
   "scripts": {
     "dev": "tsc --build -w tsconfig.json",
     "example": "npm run build && DEBUG=yoo-hoo ts-node example/index.ts",
@@ -42,6 +43,7 @@
   "dependencies": {
     "chalk": "^4.1.0",
     "debug": "^4.3.1",
+    "is-in-browser": "^2.0.0",
     "lolcatjs": "^2.4.0"
   },
   "husky": {

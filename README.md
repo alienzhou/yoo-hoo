@@ -72,10 +72,10 @@ Below is the fonts supported for the `fontFamily` option:
 - crazy
 - whimsy
 
-You can import font sets from `fonts/xxx.js` and use it. Such as below:
+You can import font sets from `lib/fonts/xxx` and use it. Such as below:
 
 ```typescript
-import * as fontFamily from 'yoo-hoo/fonts/ansi-shadow';
+import * as fontFamily from 'yoo-hoo/lib/fonts/ansi-shadow';
 
 yo('yoo-hoo', {
     fontFamily,
