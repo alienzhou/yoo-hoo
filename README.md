@@ -40,6 +40,7 @@ It will return the lines for printing. Then you can print it yourself line by li
 
 **Options:**
 
+- fontFamily: `object` Specify the font family. Optional. See more in the [Built-In Fonts Section](#built-in-fonts).
 - spacing: `number`  The number of spaces between two characters. Default `1`.
 - paddingStart: `number`  The number of spaces before the text. Default `0`.
 - maxLineWidth: `number`  The max length of lines. If exceed `maxLineWidth` following characters will get a line feed. Default `Infinity`.
@@ -53,10 +54,35 @@ It will return the lines for printing. Then you can print it yourself line by li
 For example,
 
 ```typescript
-yo('ho', { color: 'blue', spacing: 2 });
+yo('ho', {
+  color: 'blue',
+  spacing: 2,
+});
 ```
 
 Then it will print a blue `HO` with two spaces between H and O.
+
+## Built-In Fonts
+
+Below is the fonts supported for the `fontFamily` option:
+
+- default
+- anis-shadow
+- big
+- crazy
+- whimsy
+
+You can import font sets from `fonts/xxx.js` and use it. Such as below:
+
+```typescript
+import * as fontFamily from 'yoo-hoo/fonts/ansi-shadow';
+
+yo('yoo-hoo', {
+    fontFamily,
+});
+```
+
+When not receiving a `fontFamily` object, it will use the default font set.
 
 ## Characters Supported
 

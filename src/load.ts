@@ -1,9 +1,5 @@
-import type { Character, Dictionary } from './types';
-
-interface FontDefinition {
-    defs: string[];
-    codes: number[];
-}
+import type { Character, Dictionary, FontDefinition, FontFamilyObject } from './types';
+import { debug, debugVerbose } from './debug';
 
 // calc the valid width of characters
 const calcCharacterWidth = function (lines: string[]): number {
@@ -31,6 +27,7 @@ const calcCharacterWidth = function (lines: string[]): number {
 
         minLeft = Math.min(left, minLeft);
         maxRight = Math.max(right, maxRight);
+        debugVerbose('minLeft:', minLeft, 'maxRight:', maxRight);
     });
 
     return maxRight - minLeft + 1;
@@ -43,7 +40,7 @@ const formatCharacter = function (info: FontDefinition, maxCharHeight: number): 
 
     // fill empty lines in case of short characters
     if (lines.length < maxCharHeight) {
-        lines.push(...new Array(maxCharHeight - lines.length).fill(''));
+        lines.push(...new Array<string>(maxCharHeight - lines.length).fill(''));
     }
 
     const maxLen = lines.reduce((max, l) => Math.max(max, l.length), 0);
@@ -54,6 +51,8 @@ const formatCharacter = function (info: FontDefinition, maxCharHeight: number): 
 
     const width = calcCharacterWidth(lines);
 
+    debugVerbose('width:', width, 'maxCharHeight:', maxCharHeight);
+
     return defs.map(def => ({
         lines: [...lines],
         width,
@@ -62,25 +61,34 @@ const formatCharacter = function (info: FontDefinition, maxCharHeight: number): 
     }));
 };
 
-const loadCharacters = function (): Character[][] {
-    try {
-        // TODO support load customized font set modules
-        // eslint-disable-next-line @typescript-eslint/no-var-requires, @typescript-eslint/no-require-imports
-        const { fonts } = require('./res/font.js') as { fonts: FontDefinition[] };
+const loadCharacters = function (fontFamily?: FontFamilyObject): Character[][] {
+    let fontModule: { fonts: FontDefinition[] };
 
-        const maxCharHeight = fonts.reduce((max, f) => Math.max(f.codes.filter(c => c === 10).length + 1, max), 0);
-
-        return fonts.map(f => formatCharacter(f, maxCharHeight));
-    } catch (e: unknown) {
-        // eslint-disable-next-line no-console
-        console.error('FONT SET NOT FOUND in ./res/font.js:', e);
-
-        return [];
+    if (fontFamily) {
+        fontModule = fontFamily;
+    } else {
+        try {
+            // eslint-disable-next-line @typescript-eslint/no-var-requires, @typescript-eslint/no-require-imports
+            fontModule = require('./fonts/default.js') as { fonts: FontDefinition[] };
+        } catch (e: unknown) {
+            throw Error(`FONT NOT FOUND (Font Family Default). \n${e as string}`);
+        }
     }
+
+    const fonts = fontModule.fonts;
+    const maxCharHeight = fonts.reduce((max, f) => Math.max(f.codes.filter(c => c === 10).length + 1, max), 0);
+
+    return fonts.map(f => formatCharacter(f, maxCharHeight));
 };
 
-export const load = function (): Dictionary {
-    const characters = loadCharacters();
+export const load = function (fontFamily?: FontFamilyObject): Dictionary {
+    debug('loading font', fontFamily?.name ?? 'default');
+
+    const characters = loadCharacters(fontFamily);
+
+    debugVerbose('characters:', characters);
+    debug('load characters successfully:', characters.map(cur => cur.map(c => c.def).join(',')).join(','));
+
     const mapping: Dictionary = {};
 
     characters

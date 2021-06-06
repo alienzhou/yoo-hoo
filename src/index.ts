@@ -4,6 +4,7 @@ import type { Dictionary, Option } from './types';
 import { load } from './load';
 import { layout } from './typesetting';
 import { DEFAULT_COLOR, DEFAULT_MAX_LINE_WIDTH, DEFAULT_SILENT, DEFAULT_SPACING, DEFAULT_PADDING_START } from './const';
+import { debug } from './debug';
 
 type Paint = (s: string) => string;
 type ChalkMod = Record<string, Paint>;
@@ -17,6 +18,7 @@ const formatOption = function (opt?: Option): Required<Option> {
         paddingStart = 0;
     }
 
+    const fontFamily = opt?.fontFamily ?? 'default';
     const spacing = opt?.spacing ?? DEFAULT_SPACING;
     const maxLineWidth = opt?.maxLineWidth ?? DEFAULT_MAX_LINE_WIDTH;
     const silent = opt?.silent ?? DEFAULT_SILENT;
@@ -24,6 +26,7 @@ const formatOption = function (opt?: Option): Required<Option> {
         opt?.color === 'random' ? PALETTE[Math.floor(Math.random() * PALETTE.length)] : opt?.color ?? DEFAULT_COLOR;
 
     return {
+        fontFamily,
         color,
         spacing,
         paddingStart,
@@ -32,20 +35,32 @@ const formatOption = function (opt?: Option): Required<Option> {
     };
 };
 
-let dictionary: Dictionary = {};
+const dictionaryMap: Record<string, Dictionary> = {};
 
 export const yo = function (str: string, opt?: Option) {
     const options = formatOption(opt);
 
-    // has not loaded
-    if (!Object.keys(dictionary).length) {
-        dictionary = load();
+    debug('options:', options);
+
+    const fontName = options.fontFamily === 'default' ? 'default' : options.fontFamily.name;
+
+    if (!dictionaryMap[fontName]) {
+        dictionaryMap[fontName] = {};
     }
+
+    // has not loaded
+    if (!Object.keys(dictionaryMap[fontName]).length) {
+        debug(`load font ${fontName}`);
+        dictionaryMap[fontName] = options.fontFamily === 'default' ? load() : load(options.fontFamily);
+    }
+
+    const dictionary = dictionaryMap[fontName];
 
     const lines = layout(str, dictionary, options).map(l => `${' '.repeat(options.paddingStart)}${l}`);
 
     if (!options.silent) {
         if (options.color === 'rainbow') {
+            debug('use lolcat');
             lolcatjs.fromString(lines.join('\n'));
 
             return lines;
@@ -54,8 +69,8 @@ export const yo = function (str: string, opt?: Option) {
         let paint: Paint = (s: string) => s;
         const color = options.color === 'random' ? PALETTE[Math.floor(Math.random() * PALETTE.length)] : options.color;
 
-        if (typeof ((chalk as unknown) as ChalkMod)[color] === 'function') {
-            paint = (s: string) => ((chalk as unknown) as ChalkMod)[color](s);
+        if (typeof (chalk as unknown as ChalkMod)[color] === 'function') {
+            paint = (s: string) => (chalk as unknown as ChalkMod)[color](s);
         }
 
         lines.forEach(l => {

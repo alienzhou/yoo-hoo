@@ -2,7 +2,6 @@ import * as fs from 'fs';
 import * as path from 'path';
 import {
     BUILT_IN_RAW_DIR,
-    BUILT_IN_FONT_MODULE,
     BUILT_IN_FONT_DIR,
 } from './const';
 
@@ -83,9 +82,9 @@ export const parse = function (filepath: string) {
 const creatStringArr = (arr: string[]) => '[' + arr.map(d => `'${d}'`).join(',') + ']';
 const creatNumberArr = (arr: number[]) => '[' + arr.map(d => `${d}`).join(',') + ']';
 
-export const buildCharacterModules = function () {
-    const fontDir = BUILT_IN_FONT_DIR;
-    const fontFilepath = BUILT_IN_FONT_MODULE;
+export const buildCharacterModules = function (rawDir: string, fontDir: string, fontFileName: string) {
+    const fontFilepath = path.resolve(fontDir, `${fontFileName}.js`);
+    const fontDeclareFilepath = path.resolve(fontDir, `${fontFileName}.d.ts`);
     try {
         fs.accessSync(fontDir);
     }
@@ -96,11 +95,14 @@ export const buildCharacterModules = function () {
     try {
         fs.accessSync(fontFilepath);
         fs.unlinkSync(fontFilepath);
+
+        fs.accessSync(fontDeclareFilepath);
+        fs.unlinkSync(fontDeclareFilepath);
     }
     catch {}
 
     const parsedFonts: Array<{ defs: string[]; codes: number[], content: string }> = [];
-    recursiveDirectory(BUILT_IN_RAW_DIR, filepath => {
+    recursiveDirectory(rawDir, filepath => {
         const info = parse(filepath);
         if (!info) {
             return;
@@ -134,11 +136,26 @@ export const buildCharacterModules = function () {
         'const fonts = [];\n'
         + text
         + 'module.exports.fonts = fonts;\n'
+        + `module.exports.name = '${fontFileName}';\n`
+    );
+
+    const declareText = (
+        'import { FontFamilyObject } from "../types";\n'
+        + 'export declare const name: FontFamilyObject["name"];'
+        + 'export declare const fonts: FontFamilyObject["fonts"];'
     );
 
     fs.writeFileSync(fontFilepath, moduleText, 'utf-8');
+    fs.writeFileSync(fontDeclareFilepath, declareText, 'utf-8');
 }
 
 if (require.main === module) {
-    buildCharacterModules();
+    const dirs = fs.readdirSync(BUILT_IN_RAW_DIR);
+    dirs.forEach(dir => {
+        buildCharacterModules(
+            path.resolve(BUILT_IN_RAW_DIR, dir),
+            path.resolve(BUILT_IN_FONT_DIR),
+            dir,
+        );
+    })
 }

@@ -5,7 +5,7 @@
   "main": "lib/index.js",
   "scripts": {
     "dev": "tsc --build -w tsconfig.json",
-    "example": "ts-node example/index.ts",
+    "example": "npm run build && DEBUG=yoo-hoo ts-node example/index.ts",
     "lint": "eslint \"src/**/*.ts\" --fix",
     "build": "rm -rf lib && tsc --build tsconfig.json && ts-node script/build.ts",
     "prepublishOnly": "npm run lint && npm run build"
@@ -25,6 +25,7 @@
   "author": "alienzhou <alienzhou16@163.com>",
   "license": "MIT",
   "devDependencies": {
+    "@types/debug": "^4.1.5",
     "@types/node": "^14.14.9",
     "@typescript-eslint/eslint-plugin": "^4.8.1",
     "@typescript-eslint/parser": "^4.8.1",
@@ -40,6 +41,7 @@
   },
   "dependencies": {
     "chalk": "^4.1.0",
+    "debug": "^4.3.1",
     "lolcatjs": "^2.4.0"
   },
   "husky": {
