@@ -1,3 +1,11 @@
+# v1.3.1
+
+## Fix
+
+- support browsers: remove the module which not supported in browsers
+
+---
+
 # v1.3.0
 
 ## Feature
